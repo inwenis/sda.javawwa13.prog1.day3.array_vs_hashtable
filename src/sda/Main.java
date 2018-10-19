@@ -11,17 +11,15 @@ public class Main {
     static Random random = new Random();
 
     public static void main(String[] args) {
-        List<Patient> patients = new ArrayList<>();
+        PatientRegistry registry = new PatientRegistry();
         for (int i = 0; i < 10000000; i++) {
             Patient patient = new Patient();
             patient.Name = "John Doe";
             patient.Pesel = randomPesel();
-            patients.add(patient);
+            registry.add(patient);
         }
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(patients.get(patients.size() - i - 1).toHumanReadableString());
-        }
+        System.out.println("There are " + registry.getPatientsCount() + " patients in the registry.");
 
 //        System.out.println("Gimme a Pesel");
 //        Scanner scanner = new Scanner(System.in);
@@ -42,19 +40,23 @@ public class Main {
         List<String> toBeFound = IntStream.range(1, 100).mapToObj(x -> randomPesel()).collect(Collectors.toList());
 
         System.out.println("start");
-
         long start2 = System.nanoTime();
-        get100PatientsByPesel(patients, toBeFound);
+        get100PatientsByPesel(registry, toBeFound);
         long end2 = System.nanoTime();
         long elapsed2 = end2 - start2;
-
         System.out.println(elapsed2/1000000 + "ms    " + (double)elapsed2/1000000000 + "s");
     }
 
-    private static void get100PatientsByPesel(List<Patient> patients, List<String> pesels) {
+    private static void get100PatientsByPesel(PatientRegistry registry, List<String> pesels) {
         for (String pesel : pesels) {
-
+            Optional<Patient> patientByPesel = registry.getPatientByPesel(pesel);
+            if (patientByPesel.isPresent()) {
+                System.out.print("f");
+            } else {
+                System.out.print("n");
+            }
         }
+        System.out.println();
     }
 }
 
