@@ -9,7 +9,7 @@ public class PatientRegistryUsingHashMap implements PatientRegistry {
         patients.put(patient.Pesel, patient);
     }
 
-    public Optional<Patient> getPatientByPesel(String pesel) {
+    public synchronized Optional<Patient> getPatientByPesel(String pesel) {
         if(patients.containsKey(pesel)) {
             return Optional.of(patients.get(pesel));
         } else {

@@ -9,11 +9,10 @@ public class PatientRegistryUsingArray implements PatientRegistry {
         patients.add(patient);
     }
 
-    public Optional<Patient> getPatientByPesel(String pesel) {
+    public synchronized Optional<Patient> getPatientByPesel(String pesel) {
         for (Patient patient : patients) {
             if (patient.Pesel.equals(pesel)) {
-                System.out.println("found " + patient);
-
+                return Optional.of(patient);
             }
         }
         return Optional.empty();

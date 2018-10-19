@@ -20,16 +20,36 @@ public class Main {
         System.out.println("Will now add " + n + " random patients to registry");
         addRandomPatients(registry, 10000000);
         System.out.println("done");
-
         System.out.println("There are " + registry.getPatientsCount() + " patients in the registry.");
 
-        List<String> toBeFound = IntStream.range(1, 100).mapToObj(x -> randomPesel()).collect(Collectors.toList());
+        System.out.println("How many clients do you want to simulate?");
+        Scanner scanner = new Scanner(System.in);
+        int clientsCount = scanner.nextInt();
 
-        System.out.println("start");
+        List<Thread> threads = IntStream
+                .range(1, clientsCount + 1)
+                .mapToObj(x -> lookupThread(registry))
+                .collect(Collectors.toList());
+
+        threads.forEach(x -> x.start());
+    }
+
+    private static <U> Thread lookupThread(PatientRegistry registry) {
+        Thread lookUpThread = new Thread(() -> {
+            lookUpPatients(registry);
+        });
+        return lookUpThread;
+    }
+
+    private static void lookUpPatients(PatientRegistry registry) {
+        int i = 100;
+        List<String> toBeFound = IntStream.range(1, i).mapToObj(x -> randomPesel()).collect(Collectors.toList());
+        System.out.println("Will now look up " + i + " patients by Pesel in the registry");
         long start = System.nanoTime();
-        get100PatientsByPesel(registry, toBeFound);
+        getPatientsByPesel(registry, toBeFound);
         long end = System.nanoTime();
         long elapsedNanoSeconds = end - start;
+        System.out.println("done");
         String message = String.format("%dns %fms %fs",
                 elapsedNanoSeconds,
                 nanoToMilliSeconds(elapsedNanoSeconds),
@@ -46,13 +66,13 @@ public class Main {
         }
     }
 
-    private static void get100PatientsByPesel(PatientRegistry registry, List<String> pesels) {
+    private static void getPatientsByPesel(PatientRegistry registry, List<String> pesels) {
         for (String pesel : pesels) {
             Optional<Patient> patientByPesel = registry.getPatientByPesel(pesel);
             if (patientByPesel.isPresent()) {
-                System.out.print("f");
+                System.out.print("f"); // found
             } else {
-                System.out.print("n");
+                System.out.print("n"); // not found
             }
         }
         System.out.println();
