@@ -13,16 +13,8 @@ public class Main {
     static Random random = new Random();
 
     public static void main(String[] args) {
-        // use PatientRegistryUsingArray to see how long it takes to loop up 100 patients in an array
-        // on my PC it takes about 8s to lookup 100 patients in an array of 10000000 (when simulating 1 client)
-        // but it takes 70s when doing the same using 10 clients
+        // use one of the PatientRegistry implementations
         PatientRegistry registry = new PatientRegistryUsingArray();
-
-        // use PatientRegistryUsingHashMap to see how long it takes to loop up 100 patients in an HashMap
-        // on my PC it takes 0.0009s (less than 1/10th of a ms) to lookup 100 patients in an array of 10000000
-        // (when simulating 1 client)
-        // it takes 0.01s (~10ms) when doing the same using 10 clients
-        // using the correct data structure is important
 //        PatientRegistry registry = new PatientRegistryUsingHashMap();
 
         int n = 10000000;
