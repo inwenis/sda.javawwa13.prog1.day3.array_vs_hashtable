@@ -14,8 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
         // use one of the PatientRegistry implementations
-        PatientRegistry registry = new PatientRegistryUsingArray();
+//        PatientRegistry registry = new PatientRegistryUsingArray();
 //        PatientRegistry registry = new PatientRegistryUsingHashMap();
+        PatientRegistry registry = new PatientRegistryUsingCustomHashMap();
 
         int n = 10000000;
         System.out.println("Will now add " + n + " random patients to registry");

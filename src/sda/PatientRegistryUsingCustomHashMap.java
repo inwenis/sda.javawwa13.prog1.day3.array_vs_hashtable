@@ -1,0 +1,23 @@
+package sda;
+
+import java.util.*;
+
+public class PatientRegistryUsingCustomHashMap implements PatientRegistry {
+    private Map<String, Patient> patients = new OurOwnHashMap();
+
+    public void add(Patient patient) {
+        patients.put(patient.Pesel, patient);
+    }
+
+    public synchronized Optional<Patient> getPatientByPesel(String pesel) {
+        if(patients.containsKey(pesel)) {
+            return Optional.of(patients.get(pesel));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public int getPatientsCount() {
+        return patients.size();
+    }
+}
