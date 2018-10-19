@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static sda.Utils.nanoToMilliSeconds;
+import static sda.Utils.nanoToSeconds;
 import static sda.Utils.randomPesel;
 
 public class Main {
@@ -44,7 +46,7 @@ public class Main {
         get100PatientsByPesel(registry, toBeFound);
         long end2 = System.nanoTime();
         long elapsed2 = end2 - start2;
-        System.out.println(elapsed2/1000000 + "ms    " + (double)elapsed2/1000000000 + "s");
+        System.out.println(nanoToMilliSeconds(elapsed2) + "ms    " + nanoToSeconds(elapsed2) + "s");
     }
 
     private static void get100PatientsByPesel(PatientRegistry registry, List<String> pesels) {

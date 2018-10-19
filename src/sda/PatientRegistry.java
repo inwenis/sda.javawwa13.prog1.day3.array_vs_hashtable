@@ -1,24 +1,27 @@
 package sda;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PatientRegistry {
-    private List<Patient> patients = new ArrayList<>();
-
+//    private List<Patient> patients = new ArrayList<>();
+    private Map<String, Patient> patients = new HashMap<>();
     public void add(Patient patient) {
-        patients.add(patient);
+        patients.put(patient.Pesel, patient);
     }
 
     public Optional<Patient> getPatientByPesel(String pesel) {
-        for (Patient patient : patients) {
-            if (patient.Pesel.equals(pesel)) {
-                System.out.println("found " + patient);
-                return Optional.of(patient);
-            }
+        if(patients.containsKey(pesel)) {
+            return Optional.of(patients.get(pesel));
+        } else {
+            return Optional.empty();
         }
-        return Optional.empty();
+//        for (Patient patient : patients) {
+//            if (patient.Pesel.equals(pesel)) {
+//                System.out.println("found " + patient);
+//
+//            }
+//        }
+//        return Optional.empty();
     }
 
     public int getPatientsCount() {
