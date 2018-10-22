@@ -46,6 +46,15 @@ public class Main {
                     .collect(Collectors.toList());
 
             threads.forEach(x -> x.start());
+
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             System.out.println("done");
             System.out.println("--------------------------------------------------------------");
         }
