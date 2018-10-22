@@ -19,7 +19,7 @@ public class Main {
 
         int n = 10000000;
         System.out.println("Will now add " + n + " random patients to registry");
-        addRandomPatients(registry, 10000000);
+        addRandomPatients(registry, n);
         System.out.println("done");
         System.out.println("There are " + registry.getPatientsCount() + " patients in the registry.");
 
