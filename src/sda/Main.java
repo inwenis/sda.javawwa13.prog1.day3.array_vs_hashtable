@@ -23,16 +23,32 @@ public class Main {
         System.out.println("done");
         System.out.println("There are " + registry.getPatientsCount() + " patients in the registry.");
 
-        System.out.println("How many clients do you want to simulate?");
         Scanner scanner = new Scanner(System.in);
-        int clientsCount = scanner.nextInt();
 
-        List<Thread> threads = IntStream
-                .range(1, clientsCount + 1)
-                .mapToObj(x -> lookupThread(registry))
-                .collect(Collectors.toList());
+        while(true) {
+            int clientsCount = 0;
+            System.out.println("How many clients do you want to simulate? (q to quit)");
+            String line = scanner.nextLine();
+            if (Objects.equals(line, "q")) {
+                System.out.println("exiting...");
+                break;
+            }
+            try {
+                clientsCount = Integer.parseInt(line);
+            } catch (NumberFormatException e) {
+                System.out.println("I Could not parse: " + line);
+                continue;
+            }
 
-        threads.forEach(x -> x.start());
+            List<Thread> threads = IntStream
+                    .range(1, clientsCount + 1)
+                    .mapToObj(x -> lookupThread(registry))
+                    .collect(Collectors.toList());
+
+            threads.forEach(x -> x.start());
+            System.out.println("done");
+            System.out.println("--------------------------------------------------------------");
+        }
     }
 
     private static <U> Thread lookupThread(PatientRegistry registry) {
